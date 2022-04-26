@@ -23,7 +23,7 @@ const SEARCH_RESTAURANT = gql`
 export const Search = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const [callQuery, { loading, data, called }] = useLazyQuery<
+    const [callQuery] = useLazyQuery<
         searchRestaurant,
         searchRestaurantVariables
     >(SEARCH_RESTAURANT);

@@ -1,9 +1,8 @@
 import { gql, useQuery } from "@apollo/client"
-import { url } from "inspector";
 import React, { useState } from "react"
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Restaurant } from "../../components/restaurant";
 import { RESTAURANT_FRAGMENT, CATEGORY_FRAGMENT } from "../../fragment";
 import { restaurantsPageQuery, restaurantsPageQueryVariables } from "../../__generated__/restaurantsPageQuery";

@@ -9,7 +9,7 @@ import {
   createRestaurant,
   createRestaurantVariables,
 } from "../../__generated__/createRestaurant";
-import { CREATEACCOUNT_MUTATION } from "../create-account";
+
 import { MY_RESTAURANTS_QUERY } from "./my-restraurants";
 
 export const CREATERESTAURANT_MUTATION = gql`
@@ -72,7 +72,7 @@ export const AddRestaurant = () => {
       navigate('/', {replace:true})
     }
   };
-  const [createRestaurantMutation, { loading, data }] = useMutation<
+  const [createRestaurantMutation, { data }] = useMutation<
     createRestaurant,
     createRestaurantVariables
   >(CREATERESTAURANT_MUTATION, {

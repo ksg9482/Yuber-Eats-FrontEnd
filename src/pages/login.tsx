@@ -34,7 +34,6 @@ export const Login = () => {
     const {
         register,
         getValues,
-        watch,
         handleSubmit,
         formState: { errors, isValid }
     } = useForm<ILoginForm>({
@@ -46,7 +45,6 @@ export const Login = () => {
     const onCompleted = (data: logInMutaion) => {
         const { login: {
             ok,
-            error,
             token
         } } = data;
         
@@ -56,11 +54,11 @@ export const Login = () => {
             isLoggedInVar(true);
         }
     };
-    const onError = (error: ApolloError) => {
-        //주의: output에서의 error false는 graphql에겐 onCompleted다. graphql의 error가 아님
-        //graphql에서의 error는 request가 유효하지 않거나 인증이 필요하거나 url이 잘못되었을 경우
+    // const onError = (error: ApolloError) => {
+    //     //주의: output에서의 error false는 graphql에겐 onCompleted다. graphql의 error가 아님
+    //     //graphql에서의 error는 request가 유효하지 않거나 인증이 필요하거나 url이 잘못되었을 경우
 
-    };
+    // };
     const [loginMutaion, { data: loginMutationResult, loading } /*{data,loading,error}*/] = useMutation<logInMutaion, logInMutaionVariables>(
         //useMutation은 array를 반환한다 
         //[0]번째는 반드시 호출해줘야 하는 mutation function이고 

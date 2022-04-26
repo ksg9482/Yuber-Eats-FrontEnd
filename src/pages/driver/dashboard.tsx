@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import GoogleMapReact from "google-map-react";
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import { gql, useMutation, useSubscription } from "@apollo/client";
 import { FULL_ORDER_FRAGMENT } from "../../fragment";
 import { cookedOrder } from "../../__generated__/cookedOrder";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { takeOrder, takeOrderVariables } from "../../__generated__/takeOrder";
 
 const COOCKED_ORDERS_SUBSCRIPTION = gql`
@@ -36,13 +35,13 @@ interface IDriverProps {
   $hover?: any;
 }
 
-const Driver: React.FC<IDriverProps> = () => <div className="text-lg">🚖</div>;
+//const Driver: React.FC<IDriverProps> = () => <div className="text-lg">🚖</div>;
 
 export const DashBoard = () => {
   const [driverCoords, setDriverCoords] = useState<ICoords>({ lng: 0, lat: 0 });
   const [map, setMap] = useState<google.maps.Map>();
   const [map1, setMap1] = useState(null)
-  const [maps, setMaps] = useState<any>();
+  //const [maps, setMaps] = useState<any>();
 
   const containerStyle = {
     width: window.innerWidth, height: "50vh"
@@ -98,11 +97,11 @@ export const DashBoard = () => {
     } //gps값 변하면 자동으로 상태 갱신
   }, [driverCoords.lat, driverCoords.lng]);
 
-  const onApiLoaded = ({ map, maps }: { map: any; maps: any }) => {
-    map.panTo(new google.maps.LatLng(driverCoords.lat, driverCoords.lng));
-    setMap(map);
-    setMaps(maps);
-  };
+  // const onApiLoaded = ({ map, maps }: { map: any; maps: any }) => {
+  //   map.panTo(new google.maps.LatLng(driverCoords.lat, driverCoords.lng));
+  //   setMap(map);
+  //   setMaps(maps);
+  // };
   //map은 내가있는 지도정보, maps는 google maps의 객체
 
   const makeRoute = () => {

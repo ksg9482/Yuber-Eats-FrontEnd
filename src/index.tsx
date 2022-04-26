@@ -1,11 +1,7 @@
 import React from 'react';
-import ReactDOM, {createRoot} from 'react-dom/client';
+import {createRoot} from 'react-dom/client';
 import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  useQuery,
-  gql
+  ApolloProvider
 } from "@apollo/client";
 import {App} from './components/app';
 import reportWebVitals from './reportWebVitals';

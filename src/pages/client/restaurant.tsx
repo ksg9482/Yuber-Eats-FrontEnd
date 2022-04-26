@@ -36,9 +36,6 @@ const CREATE_ORDER_MUTATION = gql`
   }
 `;
 
-interface IRestaurantParams {
-  id: string;
-}
 
 export const Restaurant = () => {
   const navigate = useNavigate();
@@ -48,7 +45,7 @@ export const Restaurant = () => {
 
   const params = useParams();
   const id = params.id + ""
-  const { loading, data } = useQuery<
+  const {  data } = useQuery<
     restaurant,
     restaurantVariables
   >(RESTAURANT_QUERY, {
@@ -156,7 +153,7 @@ export const Restaurant = () => {
 
   const onCompleted = (data: createOrder) => {
     const {
-      createOrder: {ok, orderId}
+      createOrder: {orderId}
     } = data;
     if(data.createOrder.ok) {
       navigate(`/orders/${orderId}`);

@@ -4,10 +4,8 @@ import { Helmet } from "react-helmet-async";
 import { 
   VictoryChart, 
   VictoryAxis, 
-  VictoryBar, 
   VictoryVoronoiContainer,
   VictoryLine,
-VictoryTooltip,
 VictoryLabel,
 VictoryTheme
  } from "victory"

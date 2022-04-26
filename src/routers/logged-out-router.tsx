@@ -1,7 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { isLoggedInVar } from "../apollo";
 import { CreateAccount } from "../pages/create-account";
 import { Login } from "../pages/login";
 import { NotFound } from "../pages/404";
