@@ -19,26 +19,15 @@ export const isLoggedInVar = makeVar(Boolean(token))
 export const authTokenVar = makeVar(token)
 //맨처음: isLoggedInVar는 false, authToken는 null이다
 
-// const wsLink = new GraphQLWsLink(createClient({
-//   url: process.env.NODE_ENV === "production"
-//   ? "ws://nomadcoders-yuber-eats.herokuapp.com/graphql"
-//   : "ws://localhost:4000/graphql",
-//   connectionParams: {
-//     "x-jwt": authTokenVar() || ""
-//   }
-// }));
-
-const wsLink = new WebSocketLink({
-  uri: process.env.NODE_ENV === "production"
+const wsLink = new GraphQLWsLink(createClient({
+  url: process.env.NODE_ENV === "production"
   ? "ws://nomadcoders-yuber-eats.herokuapp.com/graphql"
   : "ws://localhost:4000/graphql",
-  options: {
-    reconnect: true,
-    connectionParams: {
-      "x-jwt": authTokenVar() || "",
-    },
-  },
-})
+  connectionParams: {
+    "x-jwt": authTokenVar() || ""
+  }
+}));
+
 // const wsLink = new WebSocketLink(
 //   new SubscriptionClient(
 //     process.env.NODE_ENV === "production"
