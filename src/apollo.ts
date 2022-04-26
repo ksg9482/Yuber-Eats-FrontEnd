@@ -18,7 +18,9 @@ export const authTokenVar = makeVar(token)
 //맨처음: isLoggedInVar는 false, authToken는 null이다
 
 const wsLink = new GraphQLWsLink(createClient({
-  url: 'ws://localhost:4000/graphql',
+  url: process.env.NODE_ENV === "production"
+  ? "ws://nomadcoders-yuber-eats.herokuapp.com/graphql"
+  : "ws://localhost:4000/graphql",
   connectionParams: {
     "x-jwt": authTokenVar() || ""
   }
@@ -34,7 +36,9 @@ const wsLink = new GraphQLWsLink(createClient({
 // })
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:4000/graphql'
+  uri: process.env.NODE_ENV === "production"
+  ? "https://nomadcoders-yuber-eats.herokuapp.com/graphql"
+  : "https://localhost:4000/graphql"
 });
 
 const authLink = setContext((_, {headers}) => {
