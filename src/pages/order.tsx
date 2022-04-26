@@ -58,7 +58,6 @@ export const Order = () => {
 
 
     useEffect(() => {
-        console.log(data)
         if (data?.getOrder.ok) {
             subscribeToMore({
                 document: ORDER_SUBSCRIPTION,

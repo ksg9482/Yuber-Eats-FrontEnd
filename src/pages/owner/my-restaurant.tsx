@@ -63,14 +63,15 @@ export const MyRestaurant = () => {
     }
   );
 
-  const {data: subscriptionData} = useSubscription<pendingOrders>(
+  const {data: subscriptionData, loading} = useSubscription<pendingOrders>(
     PENDING_ORDERS_SUBSCRIPTION
   );
   
   const navigate = useNavigate();
-
+console.log(loading)
   useEffect(() => {
-    console.log(subscriptionData)
+    console.log('subscriptionData내용',subscriptionData)
+    console.log(loading)
     if(subscriptionData?.pendingOrders.id) {
       navigate(`/orders/${subscriptionData?.pendingOrders.id}`);
     }
