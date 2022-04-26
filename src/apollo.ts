@@ -28,26 +28,28 @@ export const authTokenVar = makeVar(token)
 //   }
 // }));
 
-// const wsLink = new WebSocketLink({
-//   uri: `ws://localhost:4000/graphql`,
-//   options: {
-//     reconnect: true,
-//     connectionParams: {
-//       "x-jwt": authTokenVar() || "",
-//     },
-//   },
-// })
-const wsLink = new WebSocketLink(
-  new SubscriptionClient(
-    process.env.NODE_ENV === "production"
+const wsLink = new WebSocketLink({
+  uri: process.env.NODE_ENV === "production"
   ? "ws://nomadcoders-yuber-eats.herokuapp.com/graphql"
   : "ws://localhost:4000/graphql",
-      { reconnect: true,
-        connectionParams: {
-        "x-jwt": authTokenVar() || "",
-      }
-    }
-  ));
+  options: {
+    reconnect: true,
+    connectionParams: {
+      "x-jwt": authTokenVar() || "",
+    },
+  },
+})
+// const wsLink = new WebSocketLink(
+//   new SubscriptionClient(
+//     process.env.NODE_ENV === "production"
+//   ? "ws://nomadcoders-yuber-eats.herokuapp.com/graphql"
+//   : "ws://localhost:4000/graphql",
+//       { reconnect: true,
+//         connectionParams: {
+//         "x-jwt": authTokenVar() || "",
+//       }
+//     }
+//   ));
 
 const httpLink = createHttpLink({
   uri: process.env.NODE_ENV === "production"
