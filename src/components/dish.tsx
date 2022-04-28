@@ -60,7 +60,7 @@ export const Dish: React.FC<IDishProps> = ({
         </h3>
         <h4 className="font-medium">{description}</h4>
       </div>
-      <span>${price}</span>
+      <span>₩{price}</span>
       {isCustomer && options && options?.length !== 0 && (
         <div>
           <h5 className="mt-8 mb-3 font-medium"> Dish Options:</h5>
