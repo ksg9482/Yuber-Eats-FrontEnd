@@ -1,7 +1,7 @@
 import { gql, useLazyQuery } from "@apollo/client";
 import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import { RESTAURANT_FRAGMENT } from "../../fragment";
 import { searchRestaurant, searchRestaurantVariables } from "../../__generated__/searchRestaurant";
 
@@ -22,7 +22,7 @@ const SEARCH_RESTAURANT = gql`
 
 export const Search = () => {
     const location = useLocation();
-    const navigate = useNavigate();
+    const history = useHistory();
     const [callQuery] = useLazyQuery<
         searchRestaurant,
         searchRestaurantVariables
@@ -34,7 +34,7 @@ export const Search = () => {
     useEffect(() => {
         const [_, query] = location.search.split("?term=");
         if (!query) {
-            return navigate('/', { replace: true });
+            return history.push("/");
         }
         callQuery({
             variables: {
@@ -44,7 +44,7 @@ export const Search = () => {
                 }
             }
         });
-    }, [navigate, location])
+    }, [history, location])
     return (
         <div>
             <Helmet>

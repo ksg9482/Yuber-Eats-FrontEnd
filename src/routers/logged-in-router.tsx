@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Restaurants } from "../pages/client/restaurants";
 import { NotFound } from "../pages/404";
 import { Header } from "../components/header";
@@ -91,41 +91,34 @@ export const LoggedInRouter = () => {
   return (
     <Router>
       <Header />
-      <Routes>
-        {data.me.role === UserRole.Client && clientRoutes.map((route) => (
-          <Route
-          key={route.path}
-          path={route.path}
-          element={route.component}
-        />
-        ))}
-        {data.me.role === UserRole.Owner && restaurantRoutes.map((route) => (
-          <Route
-          key={route.path}
-          path={route.path}
-          element={route.component}
-        />
-        ))}
-        {data.me.role === UserRole.Delivery && driverRoutes.map((route) => (
-          <Route
-          key={route.path}
-          path={route.path}
-          element={route.component}
-        />
-        ))}
+      <Switch>
+        {data.me.role === UserRole.Client &&
+          clientRoutes.map((route) => (
+            <Route exact key={route.path} path={route.path}>
+              {route.component}
+            </Route>
+          ))}
+        {data.me.role === UserRole.Owner &&
+          restaurantRoutes.map((route) => (
+            <Route exact key={route.path} path={route.path}>
+              {route.component}
+            </Route>
+          ))}
+        {data.me.role === UserRole.Delivery &&
+          driverRoutes.map((route) => (
+            <Route exact key={route.path} path={route.path}>
+              {route.component}
+            </Route>
+          ))}
         {commonRoutes.map((route) => (
-          <Route
-          key={route.path}
-          path={route.path}
-          element={route.component}
-        />
+          <Route key={route.path} path={route.path}>
+            {route.component}
+          </Route>
         ))}
-        <Route
-          key='notFound'
-          path="*"
-          element={<NotFound />}
-        />
-      </Routes>
+        <Route>
+          <NotFound />
+        </Route>
+      </Switch>
     </Router>
-  )
+  );
 }

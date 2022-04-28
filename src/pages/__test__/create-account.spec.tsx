@@ -13,7 +13,7 @@ jest.mock("react-router-dom", () => {
     const realModule = jest.requireActual("react-router-dom");
     return {
         ...realModule,
-        useNavigate: () => { //useHistory도 같다. react-router-dom의 useNavigate함수를 mock한다.
+        useHistory: () => { //useHistory도 같다. react-router-dom의 useHistory함수를 mock한다.
             return {
                 push: mockPush,
             };

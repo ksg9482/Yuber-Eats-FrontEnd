@@ -1,25 +1,24 @@
 import React from 'react';
-import {createRoot} from 'react-dom/client';
+import ReactDOM from "react-dom";
 import {
   ApolloProvider
 } from "@apollo/client";
-import {App} from './components/app';
+import { App } from './components/app';
 import reportWebVitals from './reportWebVitals';
 import "./styles/styles.css"
 import { client } from './apollo';
 import { HelmetProvider } from 'react-helmet-async'
-const rootElement = document.getElementById("root");
-if (!rootElement) throw new Error('Failed to find the root element');
-const root = createRoot(rootElement);
 
-root.render(
+
+ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
       <HelmetProvider>
         <App />
       </HelmetProvider>
     </ApolloProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

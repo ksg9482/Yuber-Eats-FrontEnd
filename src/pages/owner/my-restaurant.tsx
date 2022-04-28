@@ -9,7 +9,7 @@ import {
 VictoryLabel,
 VictoryTheme
  } from "victory"
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { Dish } from "../../components/dish";
 import { DISH_FRAGMENT, FULL_ORDER_FRAGMENT, ORDERS_FRAGMENT, RESTAURANT_FRAGMENT } from "../../fragment";
 import {
@@ -48,9 +48,12 @@ const PENDING_ORDERS_SUBSCRIPTION =  gql`
   ${FULL_ORDER_FRAGMENT}
 `;
 
+interface IParams {
+  id: string;
+};
 
 export const MyRestaurant = () => {
-  const params = useParams();
+  const params = useParams<IParams>();
     const restaurantId = params.id + ""
   const { data } = useQuery<myRestaurant, myRestaurantVariables>(
     MY_RESTAURANT_QUERY,
@@ -67,13 +70,11 @@ export const MyRestaurant = () => {
     PENDING_ORDERS_SUBSCRIPTION
   );
   
-  const navigate = useNavigate();
-console.log(loading)
+  const history = useHistory();
+
   useEffect(() => {
-    console.log('subscriptionData내용',subscriptionData)
-    console.log(loading)
     if(subscriptionData?.pendingOrders.id) {
-      navigate(`/orders/${subscriptionData?.pendingOrders.id}`);
+      history.push(`/orders/${subscriptionData?.pendingOrders.id}`);
     }
   }, [subscriptionData]);
   

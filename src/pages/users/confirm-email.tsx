@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { gql, useApolloClient, useMutation } from "@apollo/client"
 import { verifyEmail, verifyEmailVariables } from "../../__generated__/verifyEmail";
 import { useMe } from "../../hooks/useMe";
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const VERIFY_EMAIL_MUTATION = gql`
     mutation verifyEmail($input: VerifyEmailInput!) {
@@ -15,7 +15,7 @@ const VERIFY_EMAIL_MUTATION = gql`
 export const ConfirmEmail = () => {
     const { data: userData} = useMe();
     const client = useApolloClient();
-    const navigate = useNavigate();
+    const history = useHistory();
 
     const onCompleted = (data: verifyEmail) => {
         const {
@@ -34,7 +34,7 @@ export const ConfirmEmail = () => {
                 }
             });
             
-                navigate('/', { replace: true });
+                history.push("/");
         }
     };
     const [ verifyEmail ] = useMutation<

@@ -1,4 +1,4 @@
-import { ApolloError, gql, useMutation } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
 import React from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
@@ -112,13 +112,14 @@ export const Login = () => {
                     className="grid gap-3 mt-5 w-full mb-5"
                 >
                     <input
-                        {...register('email', {
-                            required: 'Email is required',
-                            pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                        ref={register({
+                            required: "Email is required",
+                            pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                         })}
+                        name="email"
                         required
+                        type="email"
                         placeholder="Email"
-                        type={'email'}
                         className="input"
                     />
                     {errors.email?.message && (
@@ -128,13 +129,11 @@ export const Login = () => {
                         <FormError errorMessage={"Please enter a valid email"} />
                     )}
                     <input
-                        {...register('password', {
-                            required: 'Password is required',
-                            minLength: 8
-                        })}
+                        ref={register({ required: "Password is required", minLength: 8 })}
                         required
+                        name="password"
+                        type="password"
                         placeholder="Password"
-                        type={'password'}
                         className="input"
                     />
                     {errors.password?.message && (

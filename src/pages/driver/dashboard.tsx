@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+import GoogleMapReact from "google-map-react";
 import { gql, useMutation, useSubscription } from "@apollo/client";
 import { FULL_ORDER_FRAGMENT } from "../../fragment";
 import { cookedOrder } from "../../__generated__/cookedOrder";
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { takeOrder, takeOrderVariables } from "../../__generated__/takeOrder";
 
 const COOCKED_ORDERS_SUBSCRIPTION = gql`
@@ -29,54 +29,31 @@ interface ICoords {
   lng: number;
 };
 
-interface IDriverProps {
-  lat: number;
-  lng: number;
-  $hover?: any;
-}
+// interface IDriverProps {
+//   lat: number;
+//   lng: number;
+//   $hover?: any;
+// }
 
 //const Driver: React.FC<IDriverProps> = () => <div className="text-lg">🚖</div>;
 
 export const DashBoard = () => {
   const [driverCoords, setDriverCoords] = useState<ICoords>({ lng: 0, lat: 0 });
   const [map, setMap] = useState<google.maps.Map>();
-  const [map1, setMap1] = useState(null)
-  //const [maps, setMaps] = useState<any>();
+  const [maps, setMaps] = useState<any>();
 
-  const containerStyle = {
-    width: window.innerWidth, height: "50vh"
-  };
-  
-  const center = {
-    lat: -3.745,
-    lng: -38.523
-  };
 
-  const { isLoaded } = useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: "AIzaSyDDOHNKASINHVtFzyVTtjs4OADOb5i48Eo"
-  })
+  const history = useHistory();
 
-  const onLoad = React.useCallback(function callback(map1) {
-    const bounds = new window.google.maps.LatLngBounds();
-    map1.fitBounds(bounds);
-    setMap1(map1)
-    map1.panTo(new google.maps.LatLng(driverCoords.lat, driverCoords.lng));
-  }, [])
+ // @ts-ignore
+ const onSucces = ({ coords: { latitude, longitude } }: Position) => {
+  setDriverCoords({ lat: latitude, lng: longitude });
+};
+// @ts-ignore
+const onError = (error: PositionError) => {
+  //console.log(error);
+};
 
-  const onUnmount = React.useCallback(function callback(map1) {
-    setMap1(null)
-  }, [])
-
-  const navigate = useNavigate();
-
-  const onSucces = ({ coords: { latitude, longitude } }: GeolocationPosition) => {
-    
-    setDriverCoords({ lat: latitude, lng: longitude })
-  };
-  const onError = (error: GeolocationPositionError) => {
-    console.log(error);
-  };
   useEffect(() => {
     navigator.geolocation.watchPosition(onSucces, onError, {
       enableHighAccuracy: true
@@ -97,11 +74,11 @@ export const DashBoard = () => {
     } //gps값 변하면 자동으로 상태 갱신
   }, [driverCoords.lat, driverCoords.lng]);
 
-  // const onApiLoaded = ({ map, maps }: { map: any; maps: any }) => {
-  //   map.panTo(new google.maps.LatLng(driverCoords.lat, driverCoords.lng));
-  //   setMap(map);
-  //   setMaps(maps);
-  // };
+  const onApiLoaded = ({ map, maps }: { map: any; maps: any }) => {
+    map.panTo(new google.maps.LatLng(driverCoords.lat, driverCoords.lng));
+    setMap(map);
+    setMaps(maps);
+  };
   //map은 내가있는 지도정보, maps는 google maps의 객체
 
   const makeRoute = () => {
@@ -140,10 +117,10 @@ export const DashBoard = () => {
   const { data: cookedOrdersData } = useSubscription<cookedOrder>(
     COOCKED_ORDERS_SUBSCRIPTION
   );
-  console.log(cookedOrdersData)
+  //console.log(cookedOrdersData)
   useEffect(() => {
     if (cookedOrdersData?.cookedOrder.id) {
-      console.log(cookedOrdersData)
+      //console.log(cookedOrdersData)
       makeRoute();
     }
   }, [cookedOrdersData]);
@@ -151,7 +128,7 @@ export const DashBoard = () => {
 
   const onCompleted = (data: takeOrder) => {
     if (data.takeOrder.ok) {
-      navigate(`/orders/${cookedOrdersData?.cookedOrder.id}`);
+      history.push(`/orders/${cookedOrdersData?.cookedOrder.id}`);
     }
   };
 
@@ -178,7 +155,7 @@ export const DashBoard = () => {
         className="overflow-hidden"
         style={{ width: window.innerWidth, height: "50vh" }}
       >
-        {/* <GoogleMapReact
+         <GoogleMapReact
           yesIWantToUseGoogleMapApiInternals
           onGoogleApiLoaded={onApiLoaded}
           defaultZoom={16}
@@ -189,16 +166,9 @@ export const DashBoard = () => {
           }}
           bootstrapURLKeys={{ key: "AIzaSyDDOHNKASINHVtFzyVTtjs4OADOb5i48Eo" }}
         >
-        </GoogleMapReact> */}
-        {isLoaded ?<GoogleMap
-        mapContainerStyle={containerStyle}
-        center={center}
-        zoom={16}
-        onLoad={onLoad}
-        onUnmount={onUnmount}
-      >
-      </GoogleMap> : <></>
-      }
+        </GoogleMapReact> 
+        
+      
         
       </div>
       <div className=" max-w-screen-sm mx-auto bg-white relative -top-10 shadow-lg py-8 px-5">
