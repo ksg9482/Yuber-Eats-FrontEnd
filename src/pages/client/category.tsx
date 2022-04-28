@@ -25,17 +25,20 @@ const CATEGORY_QUERY = gql`
   ${CATEGORY_FRAGMENT}
 `;
 
+interface ICategoryParams {
+  slug: string;
+}
 
 export const Category = () => {
   const [page, setPage] = useState(1)
-  const params = useParams();
+  const params = useParams<ICategoryParams>();
   const { data:categoryData, loading } = useQuery<category, categoryVariables>(
     CATEGORY_QUERY,
     {
       variables: {
         input: {
           page: 1,
-          slug: params.slug + "",
+          slug: params.slug
         },
       },
     }

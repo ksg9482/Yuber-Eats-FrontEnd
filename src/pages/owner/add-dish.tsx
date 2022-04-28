@@ -1,8 +1,8 @@
 import { gql, useMutation } from "@apollo/client";
-import { useState } from "react";
+import React,{ useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { Button } from "../../components/button";
 import { createDish, createDishVariables } from "../../__generated__/createDish";
 import { MY_RESTAURANT_QUERY } from "./my-restaurant";
@@ -23,10 +23,13 @@ interface IForm {
     [key: string]: string;
 };
 
+interface IParams {
+  restaurantId: string;
+}
+
 export const AddDish = () => {
-    const params = useParams();
-    const restaurantId = params.restaurantId + "";
-    const navigate = useNavigate();
+  const { restaurantId } = useParams<IParams>();
+    const history = useHistory();
     const [createDishMutation, { loading }] = useMutation<
         createDish,
         createDishVariables
@@ -70,7 +73,7 @@ export const AddDish = () => {
                 },
             },
         });
-        navigate(-1);
+        history.goBack();
     };
 
     const [optionsNumber, setOptionsNumber] = useState<number[]>([]);
@@ -94,20 +97,23 @@ export const AddDish = () => {
             className="grid max-w-screen-sm gap-3 mt-5 w-full mb-5"
           >
             <input
-              {...register('name', {required:"Name is required."})}
+              ref={register({required:"Name is required."})}
+              name='name'
               className="input"
               type="text"
               placeholder="Name"
             />
             <input
-              {...register('price', {required:"Price is required."})}
+              ref={register({required:"Price is required."})}
+              name='price'
               className="input"
               type="number"
               min={0}
               placeholder="Price"
             />
             <input
-              {...register('description', {required:"Description is required."})}
+              ref={register({required:"Description is required."})}
+              name='description'
               className="input"
               type="text"
               placeholder="Description"
@@ -124,13 +130,15 @@ export const AddDish = () => {
             optionsNumber.map((id) => (
               <div key={id} className="mt-5">
                 <input
-                  {...register(`${id}-optionName`)}
+                  ref={register}
+                  name={`${id}-optionName`}
                   className="py-2 px-4 focus:outline-none mr-3 focus:border-gray-600 border-2"
                   type="text"
                   placeholder="Option Name"
                 />
                 <input
-                  {...register(`${id}-optionExtra`)}
+                  ref={register}
+                  name={`${id}-optionExtra`}
                   className="py-2 px-4 focus:outline-none focus:border-gray-600 border-2"
                   type="number"
                   min={0}

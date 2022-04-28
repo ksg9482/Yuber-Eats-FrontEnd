@@ -2,7 +2,7 @@ import { gql, useApolloClient, useMutation } from "@apollo/client";
 import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { Button } from "../../components/button";
 import { FormError } from "../../components/form-error";
 import {
@@ -31,7 +31,7 @@ interface IFormProps {
 
 export const AddRestaurant = () => {
   const client = useApolloClient();
-  const navigate = useNavigate();
+  const history = useHistory();
   const [uploading, setUploading] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
 
@@ -69,7 +69,7 @@ export const AddRestaurant = () => {
           },
         },
       });
-      navigate('/', {replace:true})
+      history.push("/")
     }
   };
   const [createRestaurantMutation, { data }] = useMutation<
@@ -137,26 +137,29 @@ export const AddRestaurant = () => {
       onSubmit={handleSubmit(onSubmit)}
       >
         <input
-          {...register("name", {required:true})}
+          ref={register({required:"Name is required."})}
+          name="name"
           className="input"
           type="text"
           placeholder="Name"
         />
         <input
-          {...register("address", {required:true})}
+          ref={register({required:"Address is required."})}
+          name="address"
           className="input"
           type="text"
           placeholder="Address"
         />
         <input
-          {...register("categoryName", {required:true})}
+          ref={register({required:"Category Name is required."})}
+          name="categoryName"
           className="input"
           type="text"
           placeholder="Category Name"
         />
         <div>
           <input
-          {...register("file", {required:true})}
+          ref={register({ required: true })}
           type="file"
           name="file"
           accept="image/*"

@@ -1,7 +1,7 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { useNavigate, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { Dish } from "../../components/dish";
 import { DishOption } from "../../components/dish-option";
 import { DISH_FRAGMENT, RESTAURANT_FRAGMENT } from "../../fragment";
@@ -36,22 +36,25 @@ const CREATE_ORDER_MUTATION = gql`
   }
 `;
 
+interface IRestaurantParams {
+  id: string;
+}
 
 export const Restaurant = () => {
-  const navigate = useNavigate();
+  const history = useHistory();
 
   const [orderStarted, setOrderStarted] = useState(false);
   const [orderItems, setOrderItems] = useState<CreateOrderItemInput[]>([]);
 
-  const params = useParams();
-  const id = params.id + ""
+  const params = useParams<IRestaurantParams>();
+
   const {  data } = useQuery<
     restaurant,
     restaurantVariables
   >(RESTAURANT_QUERY, {
     variables: {
       input: {
-        restaurantId: +id
+        restaurantId: +params.id
       }
     }
   })
@@ -156,7 +159,7 @@ export const Restaurant = () => {
       createOrder: {orderId}
     } = data;
     if(data.createOrder.ok) {
-      navigate(`/orders/${orderId}`);
+      history.push(`/orders/${orderId}`);
     }
   };
 
@@ -180,7 +183,7 @@ export const Restaurant = () => {
       createOrderMutation({
         variables: {
           input: {
-            restaurantId: +id,
+            restaurantId: +params.id,
             items: orderItems,
           },
         },

@@ -1,8 +1,8 @@
-import {  gql, useMutation } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
 import React from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Button } from "../components/button";
 import { FormError } from "../components/form-error";
 import yuberLogo from "../images/logo.svg"
@@ -25,47 +25,47 @@ export const CREATEACCOUNT_MUTATION = gql`
 
 
 interface ICreateAccountForm {
-    email:string;
+    email: string;
     password: string;
     role: UserRole;
 }
 
 export const CreateAccount = () => {
-    const { 
+    const {
         register,
         getValues,
         handleSubmit,
         formState: { errors, isValid }
     } = useForm<ICreateAccountForm>({
-        mode:'onChange' ,
+        mode: 'onChange',
         defaultValues: {
-          role: UserRole.Client
+            role: UserRole.Client
         }
     });
-    const navigate = useNavigate();
+    const history = useHistory();
     const onCompleted = (data: createAccountMutaion) => {
         const {
-            createAccount: {ok}
+            createAccount: { ok }
         } = data;
-        if(ok) {
-            navigate('/', { replace: true });
+        if (ok) {
+            history.push("/");
         }
     }
     const [
         createAccountMutaion,
-        {loading, data: createAccountMutaionResult}
+        { loading, data: createAccountMutaionResult }
     ] = useMutation<createAccountMutaion, createAccountMutaionVariables>(
-        CREATEACCOUNT_MUTATION,{
-            onCompleted
-        }
+        CREATEACCOUNT_MUTATION, {
+        onCompleted
+    }
     );
     //data는 mutation으로부터 되돌아 온다. loading은 mutation이 실행되고 있다는 뜻. error는 mutation이 error를 반환한다는 뜻
     const onSubmit = () => {
-        if(!loading) {
-            const {email, password, role} = getValues();
+        if (!loading) {
+            const { email, password, role } = getValues();
             createAccountMutaion({
                 variables: {
-                    CreateAccountInput: {email, password, role}
+                    CreateAccountInput: { email, password, role }
                 }
             })
         }
@@ -78,56 +78,56 @@ export const CreateAccount = () => {
                 </title>
             </Helmet>
             <div className="w-full max-w-screen-sm flex flex-col px-5 items-center">
-                <img src={yuberLogo} className="w-52 mb-10" alt="Yuber Eats"/>
+                <img src={yuberLogo} className="w-52 mb-10" alt="Yuber Eats" />
                 <h4 className="w-full font-medium text-left text-3xl mb-5">Get Started</h4>
-                <form 
-                onSubmit={handleSubmit(onSubmit)}
-                className="grid gap-3 mt-5 w-full mb-5"
+                <form
+                    onSubmit={handleSubmit(onSubmit)}
+                    className="grid gap-3 mt-5 w-full mb-5"
                 >
-                    <input 
-                        {...register('email', {
-                            required: 'Email is required',
-                            pattern:/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                    <input
+                        ref={register({
+                            required: "Email is required",
+                            pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                         })}
+                        name="email"
                         required
+                        type="email"
                         placeholder="Email"
-                        type={'email'}
                         className="input"
                     />
                     {errors.email?.message && (
-                        <FormError errorMessage = {errors.email?.message}/>
+                        <FormError errorMessage={errors.email?.message} />
                     )}
                     {errors.email?.type === 'pattern' && (
-                        <FormError errorMessage = {"Please enter a valid email"} />
+                        <FormError errorMessage={"Please enter a valid email"} />
                     )}
-                    <input 
-                        {...register('password', {
-                            required:'Password is required',
-                            minLength: 8
-                        })}
+                    <input
+                        ref={register({ required: "Password is required", minLength: 8 })}
                         required
-                    placeholder="Password" 
-                    type={'password'}
-                    className="input"
+                        name="password"
+                        type="password"
+                        placeholder="Password"
+                        className="input"
                     />
                     {errors.password?.message && (
-                        <FormError errorMessage = {errors.password?.message}/>
+                        <FormError errorMessage={errors.password?.message} />
                     )}
-                    <select 
-                    {...register('role', {required: true})}
-                    className='input'
+                    <select
+                        name="role"
+                        ref={register({ required: true })}
+                        className="input"
                     >
-                      {Object.keys(UserRole).map((role, index)=> (
-                        <option key={index}>{role}</option>
-                      ))}
+                        {Object.keys(UserRole).map((role, index) => (
+                            <option key={index}>{role}</option>
+                        ))}
                     </select>
-                    <Button 
-                    canClick={isValid}
-                    loading={loading}
-                    actionText={'Create Account'}
+                    <Button
+                        canClick={isValid}
+                        loading={loading}
+                        actionText={'Create Account'}
                     />
                     {createAccountMutaionResult?.createAccount.error && (
-                        <FormError errorMessage = {createAccountMutaionResult.createAccount.error}/>
+                        <FormError errorMessage={createAccountMutaionResult.createAccount.error} />
                     )}
                 </form>
                 <div>
@@ -137,6 +137,6 @@ export const CreateAccount = () => {
                     </Link>
                 </div>
             </div>
-          </div>
-            )
+        </div>
+    )
 }

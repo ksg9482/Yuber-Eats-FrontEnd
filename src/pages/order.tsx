@@ -40,15 +40,17 @@ const ORDER_SUBSCRIPTION = gql`
   ${FULL_ORDER_FRAGMENT}
 `;
 
+interface IParams {
+    id: string;
+};
 
 export const Order = () => {
-    const params = useParams();
-    const id = params.id + "";
+    const params = useParams<IParams>();
 
     const { data, subscribeToMore } = useQuery<getOrder, getOrderVariables>(GET_ORDER, {
         variables: {
             input: {
-                id: +id
+                id: +params.id
             }
         }
     });
@@ -63,7 +65,7 @@ export const Order = () => {
                 document: ORDER_SUBSCRIPTION,
                 variables: {
                     input: {
-                        id: +id,
+                        id: +params.id,
                     },
                 },
                 updateQuery: (
@@ -90,7 +92,7 @@ export const Order = () => {
         editOrderMutation({
             variables: {
                 input: {
-                    id: +id,
+                    id: +params.id,
                     status: newStatus
                 }
             }
@@ -104,10 +106,10 @@ export const Order = () => {
             </Helmet>
             <div className="border border-gray-800 w-full max-w-screen-sm flex flex-col justify-center">
                 <h4 className="bg-gray-800 w-full py-5 text-white text-center text-xl">
-                    Order #{id}
+                    Order #{params.id}
                 </h4>
                 <h5 className="p-5 pt-10 text-3xl text-center ">
-                    ${data?.getOrder.order?.total}
+                    ₩ {data?.getOrder.order?.total}
                 </h5>
                 <div className="p-5 text-xl grid gap-6">
                     <div className="border-t pt-5 border-gray-700">

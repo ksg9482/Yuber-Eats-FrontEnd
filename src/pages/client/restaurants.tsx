@@ -2,7 +2,7 @@ import { gql, useQuery } from "@apollo/client"
 import React, { useState } from "react"
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Restaurant } from "../../components/restaurant";
 import { RESTAURANT_FRAGMENT, CATEGORY_FRAGMENT } from "../../fragment";
 import { restaurantsPageQuery, restaurantsPageQueryVariables } from "../../__generated__/restaurantsPageQuery";
@@ -53,13 +53,12 @@ export const Restaurants = () => {
 
   const { register, handleSubmit, getValues } = useForm<IFormProps>()
 
-  const navigate = useNavigate();
+  const history = useHistory();
   const onSearchSubmit = () => {
     const { searchTerm } = getValues();
-    navigate('/search', {
-      state: {
-        search: `?term=${searchTerm}`
-      }
+    history.push({
+      pathname: "/search",
+      search: `?term=${searchTerm}`,
     });
 
   };
@@ -75,10 +74,11 @@ export const Restaurants = () => {
         className="bg-gray-800 w-full py-40 flex items-center justify-center"
       >
         <input
-          {...register('searchTerm', {
+          ref={register({
             required: true,
             min: 3
           })}
+          name='searchTerm'
           type="Search"
           className="input rounded-md border-0 w-3/4 md:w-3/12"
           placeholder="Search restaurants..."

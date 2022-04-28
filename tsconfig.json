@@ -7,8 +7,6 @@
       "esnext"
     ],
     "types": [
-      "react/next", 
-      "react-dom/next", 
       "googlemaps"
     ] ,
     "allowJs": true,
