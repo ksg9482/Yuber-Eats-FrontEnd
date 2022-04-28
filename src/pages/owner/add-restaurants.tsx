@@ -101,8 +101,12 @@ export const AddRestaurant = () => {
       const formBody = new FormData();
       formBody.append("file", actualFile);
 
+      const uploadUrl = process.env.NODE_ENV === "production" 
+        ? "https://nomadcoders-yuber-eats.herokuapp.com/uploads/"
+        : "http://localhost:4000/uploads/";
+
       const {url:coverImg} = await (
-        await fetch("http://localhost:4000/uploads/", {
+        await fetch( uploadUrl, {
           method: "post",
           body: formBody
         })
