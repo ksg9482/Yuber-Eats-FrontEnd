@@ -1,46 +1,43 @@
-# Getting Started with Create React App
+# 📰 Yuber-Eats - Nomadcoders 우버이츠 클론코딩
+## 풀스택
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## 유저 타입에 따른 페이지 구성
 
-In the project directory, you can run:
+### Client
+* 카테고리 별로 등록된 레스토랑을 확인 가능합니다.
+![client-page](https://user-images.githubusercontent.com/83062886/165897679-054e6177-4ded-4f84-a3dd-37fbb7636adc.jpg)
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Owner
+* 레스토랑에 메뉴를 자유롭게 설정할 수 있습니다.
+![owner-page](https://user-images.githubusercontent.com/83062886/165897702-8e66091f-0eb9-4bfa-8155-075504cdadb4.jpg)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `npm test`
+### Driver
+* Google Map API기반으로 된 지도를 통해 경로를 확인할 수 있습니다.
+![driver-page](https://user-images.githubusercontent.com/83062886/165897709-1167760e-5b0c-450b-80d3-639dc075c82f.jpg)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+***
+# 기술 스택 - Front
+   
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+![](https://img.shields.io/badge/FRONT-Node.js-339933?style=for-the-badge&logo=Node.js)   
+![](https://img.shields.io/badge/FRONT-Apollo%20Client-311C87?style=for-the-badge&logo=ApolloGraphQL)   
+![](https://img.shields.io/badge/FRONT-GraphQL-E10098?style=for-the-badge&logo=GraphQL)   
+![](https://img.shields.io/badge/FRONT-Jest-C21325?style=for-the-badge&logo=Jest)   
+![](https://img.shields.io/badge/FRONT-TypeScript-3178C6?style=for-the-badge&logo=TypeScript)     
+![](https://img.shields.io/badge/FRONT-React-3178C6?style=for-the-badge&logo=React)     
+  
+   
+### 기술스택에 따른 강점
+* Typescript를 사용하여 Frontend와 Backend간에 주고 받는 데이터의 안정성을 보강합니다.
+  * Frontend측에서 입력한 데이터는 Server와 Database에 이르기까지 의도한 데이터 타입이 보장됩니다.
+* GraphQL을 사용하여 Frontend에서 필요한 데이터만을 요청할 수 있습니다.
+* JsonWebToken을 사용하여 보안을 강화합니다.
+* Jest를 사용하여 Unit Test와 E2E Test를 작성합니다.
+  * Test를 통해 코드를 검증하여 에러 발생을 줄일 수 있습니다. 
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
